@@ -86,6 +86,12 @@ Small.args = {
   size: "small",
   label: "Button",
 };
+export const Block = Template.bind({});
+Block.args = {
+  primary: true,
+  block: true,
+  label: "Button",
+};
 
 export const StartIcon = Template.bind({});
 StartIcon.args = {

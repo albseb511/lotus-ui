@@ -38,6 +38,10 @@ interface ButtonProps<T> {
    * disabled
    */
   disabled?: boolean;
+  /**
+   * block
+   */
+  block?: boolean;
 }
 
 const useStyles = makeStyles({
@@ -86,6 +90,9 @@ const useStyles = makeStyles({
   disabled: {
     background: "#E7E8EA",
     color: "#B6BABF"
+  },
+  block:{
+    width: "100%"
   }
 });
 
@@ -100,6 +107,7 @@ export const Button = ({
   startIcon,
   endIcon,
   disabled = false,
+  block = false,
   ...props
 }: ButtonProps<ButtonHTMLAttributes<HTMLButtonElement>>) => {
   let ref = useRef<HTMLButtonElement | null>(null);
@@ -116,13 +124,14 @@ export const Button = ({
         primary ? classes.primary : classes.secondary,
         classes[size],
         isHovered && !disabled && classes.hover,
-        disabled && classes.disabled
+        disabled && classes.disabled,
+        block && classes.block
       )}
       style={{ backgroundColor }}
       {...buttonProps}
       {...hoverProps}
       ref={ref}
-      disabled
+      disabled={disabled}
     >
       {startIcon}
       {label}
