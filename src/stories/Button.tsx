@@ -1,10 +1,9 @@
-import { makeStyles } from '@material-ui/styles';
-import clsx from 'clsx';
-import React, { useRef, ButtonHTMLAttributes } from 'react';
-import { useButton } from 'react-aria';
+import { makeStyles } from "@material-ui/styles";
+import clsx from "clsx";
+import React, { useRef, ButtonHTMLAttributes } from "react";
+import { useButton } from "react-aria";
 
-
-interface ButtonProps <T> {
+interface ButtonProps<T> {
   /**
    * Is this the principal call to action on the page?
    */
@@ -16,15 +15,23 @@ interface ButtonProps <T> {
   /**
    * How large should the button be?
    */
-  size?: 'small' | 'medium' | 'large';
+  size?: "small" | "medium" | "large";
   /**
    * Optional click handler
    */
   onPress?: () => void;
   /**
-   * 
+   * children
    */
-  children: JSX.Element | string
+  label: string;
+  /**
+   * startIcon
+   */
+  startIcon?: JSX.Element;
+  /**
+   * endIcon
+   */
+  endIcon?: JSX.Element;
 }
 
 const useStyles = makeStyles({
@@ -32,14 +39,17 @@ const useStyles = makeStyles({
     fontFamily: `'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif`,
     fontWeight: 700,
     border: 0,
-    borderRadius: "3em",
+    borderRadius: "0.25rem",
     cursor: "pointer",
-    display: "inline-block",
+    display: "flex",
+    gap: "4px",
+    justifyContent: "center",
+    alignItems: "center",
     lineHeight: 1,
   },
   primary: {
     color: "white",
-    backgroundColor: "#1ea7fd",
+    backgroundColor: "#2B75CD",
   },
   secondary: {
     color: "#333",
@@ -50,14 +60,14 @@ const useStyles = makeStyles({
     fontSize: "12px",
     padding: "10px 16px",
   },
- medium: {
+  medium: {
     fontSize: "14px",
     padding: "11px 20px",
   },
   large: {
     fontSize: "16px",
     padding: "12px 24px",
-  }
+  },
 });
 
 /**
@@ -65,25 +75,32 @@ const useStyles = makeStyles({
  */
 export const Button = ({
   primary = false,
-  size = 'medium',
+  size = "medium",
   backgroundColor,
+  label,
+  startIcon,
+  endIcon,
   ...props
 }: ButtonProps<ButtonHTMLAttributes<HTMLButtonElement>>) => {
   let ref = useRef<HTMLButtonElement | null>(null);
-  let {buttonProps} = useButton(props, ref);
-  let {children} = props;
+  let { buttonProps } = useButton(props, ref);
   let classes = useStyles();
 
   return (
-    <button type="button"
-    className={clsx(
-      classes.button,
-      primary ? classes.primary: classes.secondary,
-      classes[size]
-    )}
-    style={{ backgroundColor }}
-    {...buttonProps} ref={ref}>
-      {children}
+    <button
+      type="button"
+      className={clsx(
+        classes.button,
+        primary ? classes.primary : classes.secondary,
+        classes[size]
+      )}
+      style={{ backgroundColor }}
+      {...buttonProps}
+      ref={ref}
+    >
+      {startIcon}
+      {label}
+      {endIcon}
     </button>
   );
 };
